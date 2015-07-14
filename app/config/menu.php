@@ -1,9 +1,7 @@
 <?php
 
-/**
- * Este é o array para o teste 1.
- */
-$menu = array(
+
+$menu['test_menu'] = array(
   0 => array(
     'title' => 'Home',
     'href' => '/',
@@ -65,3 +63,9 @@ $menu = array(
     ),
   ),
 );
+
+
+
+
+
+?>

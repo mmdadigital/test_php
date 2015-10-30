@@ -1,62 +1,36 @@
-# TESTE DE PHP
+# IntroduÁ„o
+Eu criei o meu prÛprio framework MVC apenas para execuÁ„o dos testes. 
+Eu escolhi fazer assim para mostrar as minhas habilidades em MVC e programaÁ„o orientada a objetos.
 
-Neste teste, para vaga de programador **PHP Pleno/S√™nior**, Espera-se que o candidato tenha conhecimento de Orienta√ß√£o a Objeto e MVC, tenha boa l√≥gica para fazer c√≥digo sucinto e reus√°vel, e que mantenha os c√≥digos organizados e documentados.
+# ConfiguraÁ„o
+Abra o arquivo config.php e modifique as constantes para refletir as especificidades da sua instalaÁ„o.
+Depois disso importe as tabelas do banco de dados usando o conte˙do do arquivo test_php.sql 
+OBS.: vocÍ deve fazer a importaÁ„o dentro de um banco existente (dentro do banco indicado pela constante DB_NAME_DEFAULT)
+Acesse a url que vocÍ indicou na constante BASE_URL
+VocÍ deve ver uma tela com links para executar os testes
 
-Com base nisso, crie uma p√°gina em PHP, atendendo as duas quest√µes abaixo, fazendo da melhor maneira poss√≠vel **(Organiza√ß√£o de Pastas e C√≥digos, Coment√°rios, etc), usando MVC e Orienta√ß√£o a Objetos**. √â desej√°vel que o seu arquivo index.php seja utilizado apenas para dar bootstrap (Inicializar) a aplica√ß√£o.
+# Models
+Todos os models ficam dentro da pasta models. Models concretos estendem \Model\Base e implementam funcionalidades especÌficas.
+A classe \Model\Base j· faz todo o trabalho de conex„o com o banco de dados e construÁ„o de queries de INSERT, UPDATE, DELETE e SELECT b·sico.
+Um model por default se conecta a um banco padr„o especificado nas constantes dentro de config.php. 
+Uma vez que esta conex„o default È estabelecida, a mesma fica sendo reaproveita por outros models que tambÈm a utilizam.
+Mas podem ser usadas outras vari·veis de conex„o para um model especÌfico: basta implementar o mÈtodo init e sobrescrever as propriedades relevantes.
 
-Fa√ßa o teste com calma, √© prefer√≠vel que demore um pouco mais para entregar do que mandar de qualquer jeito. **A qualidade do seu c√≥digo ser√° um ponto muito importante!**
+# Views
+N„o foi usado um sistema de template, porque eu pessoalmente acho muito mais simples e atÈ mesmo mais IDE-friendly fazer cada view sendo uma classe do PHP.
+Isso me permite, por exemplo, saber quais variaveis s„o utilizadas pela view bastando escrever $view-> e deixar a IDE sugerir.
+AlÈm disso eu posso usar as funÁıes de formataÁ„o do php e qualquer outro helper criado por mim mesmo na geraÁ„o de HTML.
+Uma view no meu sistema È ent„o uma classe que estende \Views\Base e implementa o mÈtodo "render". Este mÈtodo deve sempre gerar uma saÌda HTML.
+Uma view pode tambÈm fazer consultas ao banco de dados. N„o È necessariamente o controller que tem de passar os dados para a view.
+Ent„o vocÍ vai ver queries de consultas sendo construÌdas na prÛpria view, e n„o no controller.
 
-**Para enviar o teste, fa√ßa um pull request nesse reposit√≥rio.**
+# Controller
+O controller, ao meu ver, sÛ tem o trabalho de processar requisiÁıes e selecionar a(s) view(s) que devem apresentar o resultado de uma aÁ„o solicitada.
 
-**OBS: Pode ser utilizado algum Microframework (Ex: Slim, Silex etc), algum Sistema de templates e alguma ferramenta de testes (Explique por que utilizou). Caso utilize deve vir especificado os passos de instala√ß√£o em um README.md e deve ser utilizado o composer para instala√ß√£o. Ambos testes dever√£o ser entregues no mesmo pacote.**
+# DependÍncias
+Todas as dependÍncias s„o carregadas explicitamente pelo mÛdulo dependente. 
+Ao invÈs de usar autoloaders eu carrego as dependÍncias manualmente, por meio de require_once.
+A vantagem disso È que uma classe sempre funciona stand-alone, isto È, vocÍ n„o precisa saber quais as dependÍncias dela nem garantir que um autoloader foi inicializado.
+Eu costumo programar os meus cÛdigos assim de maneira a aumentar a possibilidade de reuso de cÛdigo.
 
-
-## Teste n¬∫ 1
-
-A partir do array abaixo, gerar um menu em HTML, exibindo todos os n√≠veis hier√°rquicos existentes no array. O menu pode vir em formato de lista, usando UL, OL, n√£o sendo obrigat√≥rio esconder os submenus.
-
-**Obs.:** Este menu poder√° **ser alterado**, removendo ou adicionando **itens e n√≠veis.** Portando, construa ele de forma que funcione sem necessidade de editar o c√≥digo. Tente fazer o c√≥digo menor poss√≠vel.
-
-Para obter o array do teste, entre no arquivo **menu_array.php**
-
-
-## Teste n¬∫ 2
-
-Um cliente deseja construir um portal para sua imobili√°ria. Ele deseja poder cadastrar seus im√≥veis.
-
-**No cadastro do im√≥vel ele deseja poder adicionar as seguintes informa√ß√µes:**
-  * Tipo do im√≥vel (Uma lista. Ex: Apartamento, Casa, etc...)
-  * Ele deseja ter como cadastrar e editar os Tipos de im√≥vel.
-  * Fotos (Ele gostaria que **n√£o tenha** um limite de cadastro fotos)
-  * Rua
-  * N√∫mero
-  * Cidade (Pode ser um campo livre)
-  * Estado (Deve exibir um alista)
-  * Descri√ß√£o
-
-Ele tamb√©m informou que, para cada im√≥vel, ele precisa informar um Respons√°vel, que normalmente o dono do im√≥vel que esta a venda ou para loca√ß√£o.
-
-Para isso ele gostaria de ter a op√ß√£o de adicionar contatos, que n√£o precisam ter acesso via login no site.
-
-Ele disse que n√£o gostaria de ter que cadastrar esses contatos toda vez que adicionar um im√≥vel, pois segundo ele, pode acontecer de um mesmo contato estar presente em v√°rios imoveis. Tamb√©m um mesmo im√≥vel pode apresentar mais de um contato.
-
-Sendo assim ele gostaria de poder usar o mesmo contato em mais de um im√≥vel.
-
-**Para o contato ele gostaria de poder cadastrar os seguintes dados:**
-  * Nome
-  * Telefones (Ele poder√° por quantos n√∫meros desejar)
-  * E-mails (Ele poder√° por quantos e-mails desejar)
-
-Na p√°gina do im√≥vel deve conter as fotos do im√≥vel, o tipo de im√≥vel, rua, numero, cidade, descri√ß√£o e contato(s).
-
-Abaixo dessa pagina, apos esses dados do im√≥vel, deve ser exibido outros 3 im√≥veis aleat√≥rios que estejam na mesma cidade. Esses 3 im√≥veis devem ter 1 √∫nica foto, o nome e um dos telefones do contato (o primeiro).
-
-**OBS.:** Assume-se que os im√≥veis sempre ter√£o ao menos um contato cadastrado e todos os campos de todas entidades est√£o preenchidos.
-
-**O que deve ser feito:**
-Construa o Banco de dados com as tabelas que armazenar√° todos os dados descritos (Im√≥vel e Contato), bem como todas as tabelas auxiliares que forem necess√°rias.
-
-Construa uma p√°gina que exiba um im√≥vel, conforme os dados que foram pedidos, e mais outros 3 im√≥veis da mesma cidade.
-
-**Instru√ß√µes:**
-Para essa quest√£o deve ser entregue um dump do banco (.sql).
+ 

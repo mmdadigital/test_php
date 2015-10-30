@@ -14,7 +14,7 @@ require_once(__DIR__.'/config.php');
 ///////////////////////////////////////////////////////////////////////////////////////////
 $routes = array(
 	// ID da Ação   		=> array(Controller , Metodo)
-	'intro'                 => array('Test', 'index'),
+	'intro'                         => array('Test', 'index'),
 	'gera_menu'     		=> array('Test', 'gera_menu'),
 	'imovel'        		=> array('Portal', 'imovel'),
 	'admin_imoveis' 		=> array('Admin' , 'index'),
@@ -22,10 +22,10 @@ $routes = array(
 	'admin_contatos'		=> array('Admin' , 'contatos'),
 	'admin_contato'			=> array('Admin' , 'contato'),
 	'admin_tipos'   		=> array('Admin' , 'tipos'),
-	'admin_imovel_fotos'    => array('Admin' , 'imovel_fotos'),
-	'admin_imovel_contatos' => array('Admin' , 'imovel_contatos'),
-	'admin_contato_emails'  => array('Admin' , 'contato_emails'),
-	'admin_contato_fones'   => array('Admin' , 'contato_fones'),
+	'admin_imovel_fotos'            => array('Admin' , 'imovel_fotos'),
+	'admin_imovel_contatos'         => array('Admin' , 'imovel_contatos'),
+	'admin_contato_emails'          => array('Admin' , 'contato_emails'),
+	'admin_contato_fones'           => array('Admin' , 'contato_fones'),
 	
 );
 /////////////////////////////////////////////////////////////////////////////////////////

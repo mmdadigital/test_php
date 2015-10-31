@@ -1,36 +1,36 @@
-# IntroduÃ§Ã£o
-Eu criei o meu prÃ³prio framework MVC apenas para execuÃ§Ã£o dos testes. 
-Eu escolhi fazer assim para mostrar as minhas habilidades em MVC e programaÃ§Ã£o orientada a objetos.
+# Introdução
+Eu criei o meu próprio framework MVC apenas para execução dos testes. 
+Eu escolhi fazer assim para mostrar as minhas habilidades em MVC e programação orientada a objetos.
 
-# ConfiguraÃ§Ã£o
-Abra o arquivo config.php e modifique as constantes para refletir as especificidades da sua instalaÃ§Ã£o.
-Depois disso importe as tabelas do banco de dados usando o conteÃºdo do arquivo test_php.sql 
-OBS.: vocÃª deve fazer a importaÃ§Ã£o dentro de um banco existente (dentro do banco indicado pela constante DB_NAME_DEFAULT)
-Acesse a url que vocÃª indicou na constante BASE_URL
-VocÃª deve ver uma tela com links para executar os testes
+# Configuração
+Abra o arquivo config.php e modifique as constantes para refletir as especificidades da sua instalação.
+Depois disso importe as tabelas do banco de dados usando o conteúdo do arquivo test_php.sql 
+OBS.: você deve fazer a importação dentro de um banco existente (dentro do banco indicado pela constante DB_NAME_DEFAULT)
+Acesse a url que você indicou na constante BASE_URL
+Você deve ver uma tela com links para executar os testes
 
 # Models
-Todos os models ficam dentro da pasta models. Models concretos estendem \Model\Base e implementam funcionalidades especÃ­ficas.
-A classe \Model\Base jÃ¡ faz todo o trabalho de conexÃ£o com o banco de dados e construÃ§Ã£o de queries de INSERT, UPDATE, DELETE e SELECT bÃ¡sico.
-Um model por default se conecta a um banco padrÃ£o especificado nas constantes dentro de config.php. 
-Uma vez que esta conexÃ£o default Ã© estabelecida, a mesma fica sendo reaproveita por outros models que tambÃ©m a utilizam.
-Mas podem ser usadas outras variÃ¡veis de conexÃ£o para um model especÃ­fico: basta implementar o mÃ©todo init e sobrescrever as propriedades relevantes.
+Todos os models ficam dentro da pasta models. Models concretos estendem \Model\Base e implementam funcionalidades específicas.
+A classe \Model\Base já faz todo o trabalho de conexão com o banco de dados e construção de queries de INSERT, UPDATE, DELETE e SELECT básico.
+Um model por default se conecta a um banco padrão especificado nas constantes dentro de config.php. 
+Uma vez que esta conexão default é estabelecida, a mesma fica sendo reaproveita por outros models que também a utilizam.
+Mas podem ser usadas outras variáveis de conexão para um model específico: basta implementar o método init e sobrescrever as propriedades relevantes.
 
 # Views
-NÃ£o foi usado um sistema de template, porque eu pessoalmente acho muito mais simples e atÃ© mesmo mais IDE-friendly fazer cada view sendo uma classe do PHP.
-Isso me permite, por exemplo, saber quais variaveis sÃ£o utilizadas pela view bastando escrever $view-> e deixar a IDE sugerir.
-AlÃ©m disso eu posso usar as funÃ§Ãµes de formataÃ§Ã£o do php e qualquer outro helper criado por mim mesmo na geraÃ§Ã£o de HTML.
-Uma view no meu sistema Ã© entÃ£o uma classe que estende \Views\Base e implementa o mÃ©todo "render". Este mÃ©todo deve sempre gerar uma saÃ­da HTML.
-Uma view pode tambÃ©m fazer consultas ao banco de dados. NÃ£o Ã© necessariamente o controller que tem de passar os dados para a view.
-EntÃ£o vocÃª vai ver queries de consultas sendo construÃ­das na prÃ³pria view, e nÃ£o no controller.
+Não foi usado um sistema de template, porque eu pessoalmente acho muito mais simples e até mesmo mais IDE-friendly fazer cada view sendo uma classe do PHP.
+Isso me permite, por exemplo, saber quais variaveis são utilizadas pela view bastando escrever $view-> e deixar a IDE sugerir.
+Além disso eu posso usar as funções de formatação do php e qualquer outro helper criado por mim mesmo na geração de HTML.
+Uma view no meu sistema é então uma classe que estende \Views\Base e implementa o método "render". Este método deve sempre gerar uma saída HTML.
+Uma view pode também fazer consultas ao banco de dados. Não é necessariamente o controller que tem de passar os dados para a view.
+Então você vai ver queries de consultas sendo construídas na própria view, e não no controller.
 
 # Controller
-O controller, ao meu ver, sÃ³ tem o trabalho de processar requisiÃ§Ãµes e selecionar a(s) view(s) que devem apresentar o resultado de uma aÃ§Ã£o solicitada.
+O controller, ao meu ver, só tem o trabalho de processar requisições e selecionar a(s) view(s) que devem apresentar o resultado de uma ação solicitada.
 
-# DependÃªncias
-Todas as dependÃªncias sÃ£o carregadas explicitamente pelo mÃ³dulo dependente. 
-Ao invÃ©s de usar autoloaders eu carrego as dependÃªncias manualmente, por meio de require_once.
-A vantagem disso Ã© que uma classe sempre funciona stand-alone, isto Ã©, vocÃª nÃ£o precisa saber quais as dependÃªncias dela nem garantir que um autoloader foi inicializado.
-Eu costumo programar os meus cÃ³digos assim de maneira a aumentar a possibilidade de reuso de cÃ³digo.
+# Dependências
+Todas as dependências são carregadas explicitamente pelo módulo dependente. 
+Ao invés de usar autoloaders eu carrego as dependências manualmente, por meio de require_once.
+A vantagem disso é que uma classe sempre funciona stand-alone, isto é, você não precisa saber quais as dependências dela nem garantir que um autoloader foi inicializado.
+Eu costumo programar os meus códigos assim de maneira a aumentar a possibilidade de reuso de código.
 
  

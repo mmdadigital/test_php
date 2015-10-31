@@ -5,7 +5,7 @@ require_once(__DIR__.'/../views/BaseWrapper.php');
 
 class Test extends Base{
 	
-	// Exibe p√°gina de introdu√ß√£o com links para os tests
+	// Exibe p·gina de introduÁ„o com links para os tests
 	function index(){
 		require_once(__DIR__.'/../views/Intro.php');
 		$wrapper = new \Views\BaseWrapper;
@@ -14,7 +14,7 @@ class Test extends Base{
 		return $wrapper;
 	}
 	
-	// Implementa√ß√£o do primeiro teste de gerar o menu
+	// ImplementaÁ„o do primeiro teste de gerar o menu
 	function gera_menu(){
 		require_once(__DIR__.'/../views/Menu.php');
 		$menu = new \Views\Menu();

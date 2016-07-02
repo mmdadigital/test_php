@@ -1,7 +1,7 @@
 <?php
 
 // Require packages
-require_once '../vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 // Require menu source
 require_once '../menu_array.php';

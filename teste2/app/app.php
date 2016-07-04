@@ -1,6 +1,8 @@
 <?php
 use Silex\Provider\FormServiceProvider;
 
+define('ROOT', __DIR__);
+
 // Starting Application
 $app = new Silex\Application();
 
@@ -18,6 +20,18 @@ $app->register(new Silex\Provider\SessionServiceProvider());
 
 // URL Generator
 $app->register(new Silex\Provider\RoutingServiceProvider());
+
+// Doctrine DBAL (Database connection)
+$app->register(new Silex\Provider\DoctrineServiceProvider(), array(
+  'db.options' => array(
+    'driver'   => 'pdo_mysql',
+    'dbname'   => 'teste2',
+    'host'     => 'localhost',
+    'user'     => 'root',
+    'password' => 'root',
+    'charset'  => 'utf8'
+  ),
+));
 
 // Extend Twig
 new Application\Extensions\TwigForm($app);

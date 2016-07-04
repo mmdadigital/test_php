@@ -4,20 +4,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Application\Helpers\Helper;
 use Application\Providers as Provider;
 
-class Realty extends Provider\View {
+class Realty extends Provider\AbstractClass {
   public function addForm() {
     $form = array(
       'form' => array(
         'name' => 'add-realty-form',
         'attributes' => array(
-          'class'  => 'add-realty-form',
-          'action' => $this->app['url_generator']->generate('realtysave')
+          'class'   => 'add-realty-form',
+          'action'  => $this->app['url_generator']->generate('realtysave'),
+          'method'  => 'POST',
+          'enctype' => 'multipart/form-data'
         ),
         'elements' => array(
           'realty_type' => array(
             'type'    => 'select',
-            'label'   => 'Número',
-            'options' => array('tipo' => 'Tipo')
+            'label'   => 'Tipo de imóvel',
+            'options' => array(
+              '1' => 'Casa',
+              '2' => 'Apartamento',
+              '3' => 'Terreno',
+              '4' => 'Chácara',
+            )
           ),
           'address' => array(
             'type'  => 'text',

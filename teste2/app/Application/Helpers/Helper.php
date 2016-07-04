@@ -1,7 +1,45 @@
 <?php
 namespace Application\Helpers;
+use Application\Entity;
+use Application\Repository;
 
 class Helper {
+  public static $app;
+
+  public static function savePictures($files, $captions, $realtyId) {
+    $total = count($files['pictures']);
+
+    for ($i = 0; $i < $total; $i++) {
+      $file        = $files['pictures'][$i]['picture'];
+      $newFilename = uniqid().'--'.$file->getClientOriginalName();
+      $finalSrc    = 'images/'.$newFilename;
+
+      if ($file->move(ROOT.'/images', $newFilename)) {
+        $pictureEntity = new Entity\Picture;
+
+        $pictureEntity->setPicture($finalSrc);
+        $pictureEntity->setCaption($captions[$i]['caption']);
+        $pictureEntity->setStatus(1);
+        $pictureEntity->setCreatedAt();
+        $pictureEntity->setUpdatedAt();
+
+        $pictureRepository = new Repository\Picture(self::$app['db']);
+
+        if ($pictureId = $pictureRepository->save($pictureEntity)) {
+          $pictureIndexEntity = new Entity\PictureIndex;
+
+          $pictureIndexEntity->setRealtyId($realtyId);
+          $pictureIndexEntity->setPictureId($pictureId);
+          $pictureIndexEntity->setCreatedAt();
+          $pictureIndexEntity->setUpdatedAt();
+
+          $pictureIndexRepository = new Repository\PictureIndex(self::$app['db']);
+          $pictureIndexRepository->save($pictureIndexEntity);
+        }
+      }
+    }
+  }
+
   public static function regions() {
     return array(
       "AC" => "Acre",
@@ -45,6 +83,10 @@ class Helper {
               'picture' => array(
                 'type'  => 'file',
                 'label' => 'Imagem'
+              ),
+              'caption' => array(
+                'type'  => 'text',
+                'label' => 'Legenda'
               ),
               'add_picture' => array(
                 'type'  => 'button',

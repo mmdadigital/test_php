@@ -8,13 +8,15 @@
     "symfony/form": "^3.1",
     "symfony/twig-bridge": "^3.1",
     "symfony/translation": "^3.1",
-    "symfony/config": "^3.1"
+    "symfony/config": "^3.1",
+    "doctrine/dbal": "^2.5"
   },
   "require-dev": {
     "symfony/var-dumper": "^3.1.2"
   },
   "autoload": {
-    "psr-4": {"Application\\": "app/Application"}
+    "psr-4": {"Application\\": "app/Application"},
+    "psr-0": {"Application\\": "app/Application/"}
   },
   "authors": [
     {

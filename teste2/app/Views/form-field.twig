@@ -5,11 +5,11 @@
   <span class="field-container__field">
 
     {% if element.type == 'text' %}
-    <input type="text" name="{{ name }}" id="{{ name }}">
+    <input type="text" name="{% if parent %}{{ parent }}[0][{{ name }}]{% else %}{{ name }}{% endif %}">
     {% endif %}
 
     {% if element.type == 'file' %}
-    <input type="file" name="{{ name }}" id="{{ name }}">
+    <input type="file" name="{% if parent %}{{ parent }}[0][{{ name }}]{% else %}{{ name }}{% endif %}">
     {% endif %}
 
     {% if element.type == 'submit' %}
@@ -30,7 +30,7 @@
         <legend>{{ element.label }}</legend>
         {% for key, field in element.collection.fields %}
           {% for fieldname, el in field %}
-            {{ field_render(fieldname, el) }}
+            {{ field_render(fieldname, el, name) }}
           {% endfor %}
         {% endfor %}
       </fieldset>

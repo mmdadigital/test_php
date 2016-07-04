@@ -3,7 +3,7 @@ namespace Application\Providers;
 use Silex\Application;
 use \ReflectionMethod;
 
-abstract class View {
+abstract class AbstractClass {
   protected $app;
 
   public function __construct($app) {
@@ -16,7 +16,7 @@ abstract class View {
   }
 
   public function __call($method, $parameters) {
-    $method = str_replace('get', '', lcfirst($method));
+    $method = preg_replace('/^get/', '', lcfirst($method));
 
     if (method_exists($this, $method)) {
       $reflection = new ReflectionMethod($this, $method);

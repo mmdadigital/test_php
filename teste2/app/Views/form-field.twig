@@ -1,0 +1,49 @@
+<div class="field-container">
+  {% if element.type != 'submit' and element.type != 'button' and element.type != 'multiple' %}
+  <span class="field-container__label">{{ element.label }}</span>
+  {% endif %}
+  <span class="field-container__field">
+
+    {% if element.type == 'text' %}
+    <input type="text" name="{{ name }}" id="{{ name }}">
+    {% endif %}
+
+    {% if element.type == 'file' %}
+    <input type="file" name="{{ name }}" id="{{ name }}">
+    {% endif %}
+
+    {% if element.type == 'submit' %}
+    <input type="submit" name="{{ name }}" id="{{ name }}" value="{{ element.label }}">
+    {% endif %}
+
+    {% if element.type == 'button' %}
+    <button name="{{ name }}" id="{{ name }}">{{ element.label }}</button>
+    {% endif %}
+
+    {% if element.type == 'textarea' %}
+    <textarea name="{{ name }}" id="{{ name }}"></textarea>
+    {% endif %}
+
+    {% if element.type == 'multiple' %}
+    <div class="form-container">
+      <fieldset>
+        <legend>{{ element.label }}</legend>
+        {% for key, field in element.collection.fields %}
+          {% for fieldname, el in field %}
+            {{ field_render(fieldname, el) }}
+          {% endfor %}
+        {% endfor %}
+      </fieldset>
+    </div>
+    {% endif %}
+
+    {% if element.type == 'select' %}
+    <select name="{{ name }}" id="{{ name }}">
+      {% for value, label in element.options %}
+      <option value="{{ value }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+    {% endif %}
+
+  </span>
+</div>

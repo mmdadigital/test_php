@@ -40,6 +40,43 @@ class Helper {
     }
   }
 
+  public static function saveMultiple($fields, $realtyId) {
+    $realtyEntity = new Entity\Realty;
+    $ids          = array();
+
+    foreach ($fields as $field) {
+      array_push($ids, $field['name']);
+    }
+
+    $realtyEntity->setId($realtyId);
+    $realtyEntity->setContacts(json_encode($ids));
+
+    $realtyRepository = new Repository\Realty(self::$app['db']);
+    $realtyRepository->save($realtyEntity);
+  }
+
+  public static function realtyTypes() {
+    $type           = new Repository\Type(self::$app['db']);
+    $typeCollection = array(0 => '--Selecione--');
+
+    foreach ($type->getCollection() as $type) {
+      $typeCollection[$type['id']] = $type['type'];
+    }
+
+    return $typeCollection;
+  }
+
+  public static function realtyContacts() {
+    $contactRepository = new Repository\Contact(self::$app['db']);
+    $contactCollection = array(0 => '--Selecione--');
+
+    foreach ($contactRepository->getCollection() as $contact) {
+      $contactCollection[$contact['id']] = $contact['name'];
+    }
+
+    return $contactCollection;
+  }
+
   public static function regions() {
     return array(
       "AC" => "Acre",
@@ -72,29 +109,67 @@ class Helper {
     );
   }
 
-  public static function fieldCollection($fieldname = '') {
+  public static function fieldCollection($fieldname = '', $data = null) {
     if (!$fieldname) return array();
 
     switch ($fieldname) {
       case 'realty_pictures':
-        $collection = array(
-          'fields' => array(
-            array(
-              'picture' => array(
-                'type'  => 'file',
-                'label' => 'Imagem'
+        if ($data) {
+          $pictureRepository = new Repository\PictureIndex(self::$app['db']);
+          $pictures          = $pictureRepository->loadCollection($data['id']);
+          $collection        = array('fields' => array());
+
+          foreach ($pictures as $key => $value) {
+            $collection['fields'][$key] = array(
+              'picture'        => array(
+                'type'         => 'text',
+                'label'        => 'Imagem',
+                'value'        => $value['picture'],
+                'disabled'     => true,
+                'image_render' => true
               ),
               'caption' => array(
                 'type'  => 'text',
-                'label' => 'Legenda'
+                'label' => 'Legenda',
+                'value' => $value['caption'],
               ),
               'add_picture' => array(
                 'type'  => 'button',
                 'label' => 'Adicionar Imagem'
               ),
+              'remove_picture' => array(
+                'type'  => 'button',
+                'label' => 'Remover Imagem'
+              ),
+            );
+          }
+        }
+        else {
+          $collection = array(
+            'fields' => array(
+              array(
+                'picture' => array(
+                  'type'  => 'file',
+                  'label' => 'Imagem',
+                  'value' => ''
+                ),
+                'caption' => array(
+                  'type'  => 'text',
+                  'label' => 'Legenda',
+                  'value' => ''
+                ),
+                'add_picture' => array(
+                  'type'  => 'button',
+                  'label' => 'Adicionar Imagem'
+                ),
+                'remove_picture' => array(
+                  'type'  => 'button',
+                  'label' => 'Remover Imagem'
+                ),
+              ),
             ),
-          ),
-        );
+          );
+        }
       break;
 
       case 'phones':
@@ -140,37 +215,78 @@ class Helper {
       break;
 
       case 'contacts':
-        $collection = array(
-          'fields' => array(
-            array(
+        if ($data) {
+          $contactRepository = new Repository\Contact(self::$app['db']);
+          $contactIds        = json_decode(json_decode($data['contacts']));
+          $contacts          = $contactRepository->load($contactIds);
+          $collection        = array('fields' => array());
+
+          foreach ($contacts as $key => $contact) {
+            $collection['fields'][$key] = array(
               'name' => array(
-                'type'  => 'text',
-                'label' => 'Nome'
-              ),
-              'phones' => array(
-                'type'       => 'multiple',
-                'label'      => 'Telefones',
-                'collection' => self::fieldCollection('phones'),
-              ),
-              'emails' => array(
-                'type'       => 'multiple',
-                'label'      => 'Emails',
-                'collection' => self::fieldCollection('emails'),
+                'type'    => 'select',
+                'label'   => 'Nome',
+                'options' => self::realtyContacts(),
+                'value'   => $contact['id']
               ),
               'add_contact' => array(
                 'type'  => 'button',
-                'label' => 'Adicionar contato',
+                'label' => 'Adicionar Contato'
               ),
               'remove_contact' => array(
                 'type'  => 'button',
-                'label' => 'Remover contato',
+                'label' => 'Remover Contato'
               ),
-            ),
-          )
-        );
+            );
+          }
+        }
+        else {
+          $collection = array(
+            'fields' => array(
+              array(
+                'name' => array(
+                  'type'    => 'select',
+                  'label'   => 'Nome',
+                  'options' => array(0 => '--Selecione--', 1 => 'José', 2 => 'Maria', 3 => 'Jaboatina')
+                ),
+                'add_contact' => array(
+                  'type'  => 'button',
+                  'label' => 'Adicionar Contato'
+                ),
+                'remove_contact' => array(
+                  'type'  => 'button',
+                  'label' => 'Remover Contato'
+                ),
+              ),
+            )
+          );
+        }
       break;
     }
 
     return $collection;
+  }
+
+  public static function populateForm($form, $data) {
+    foreach ($form['form']['elements'] as $name => $field) {
+      if ($field['type'] !== 'multiple') {
+        $form['form']['elements'][$name]['value'] = isset($data[$name]) ? $data[$name] : '';
+      }
+      else {
+        switch ($name) {
+          case 'pictures':
+            $identifier = 'realty_pictures';
+          break;
+
+          case 'contacts':
+            $identifier = $name;
+          break;
+        }
+
+        $form['form']['elements'][$name]['collection'] = self::fieldCollection($identifier, $data);
+      }
+    }
+
+    return $form;
   }
 }

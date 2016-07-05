@@ -2,6 +2,7 @@
 use Silex\Provider\FormServiceProvider;
 
 define('ROOT', __DIR__);
+define('APP_URL', 'http://localhost.testephp/teste2/app');
 
 // Starting Application
 $app = new Silex\Application();

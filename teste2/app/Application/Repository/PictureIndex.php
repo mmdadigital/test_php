@@ -5,9 +5,11 @@ use Application\Entity;
 
 class PictureIndex {
   protected $db;
+  protected $table;
 
   public function __construct(Connection $db) {
-    $this->db = $db;
+    $this->db    = $db;
+    $this->table = 'picture_index';
   }
 
   public function save($pictureIndex) {
@@ -18,12 +20,12 @@ class PictureIndex {
     );
 
     if ($pictureIndex->getId()) {
-      $this->db->update('picture_index', $pictureIndexData, array('id' => $pictureIndex->getId()));
+      $this->db->update($this->table, $pictureIndexData, array('id' => $pictureIndex->getId()));
     }
     else {
       $pictureIndexData['created_at'] = $pictureIndex->getCreatedAt();
 
-      $this->db->insert('picture_index', $pictureIndexData);
+      $this->db->insert($this->table, $pictureIndexData);
 
       $id = $this->db->lastInsertId();
 
@@ -31,5 +33,16 @@ class PictureIndex {
     }
 
     return $pictureIndex->getId();
+  }
+
+  public function loadCollection($realtyId) {
+    $query = "SELECT pi.picture_id, rp.picture, rp.caption
+              FROM $this->table as pi
+              JOIN realty_pictures as rp ON rp.id = pi.picture_id
+              WHERE pi.realty_id = $realtyId";
+
+    $pictures = $this->db->fetchAll($query);
+
+    return $pictures;
   }
 }

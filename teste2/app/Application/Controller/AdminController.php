@@ -27,16 +27,25 @@ class AdminController {
     return $form;
   }
 
+  public function editRealty(Application $app, $realty) {
+    $view = new View\Realty($app);
+    $form = $view->getAddForm($realty);
+
+    return $form;
+  }
+
+  public function addContact(Application $app) {
+    $view = new View\Contact($app);
+    $form = $view->getAddForm();
+
+    return $form;
+  }
+
   public function saveRealty(Application $app) {
     $request          = Request::createFromGlobals();
     $realtyInput      = $request->request->all();
     $realtyRepository = new Repository\Realty($app['db']);
     $realtyEntity     = new Entity\Realty;
-    $contacts         = array(
-      'contacts' => $realtyInput['contacts'],
-      'phones'   => $realtyInput['phones'],
-      'emails'   => $realtyInput['emails']
-    );
 
     $realtyEntity->setRealtyType($realtyInput['realty_type']);
     $realtyEntity->setAddress($realtyInput['address']);
@@ -44,14 +53,28 @@ class AdminController {
     $realtyEntity->setCity($realtyInput['city']);
     $realtyEntity->setRegion($realtyInput['region']);
     $realtyEntity->setDescription($realtyInput['description']);
-    $realtyEntity->setContacts($contacts);
     $realtyEntity->setCreatedAt();
     $realtyEntity->setUpdatedAt();
 
     if ($realtyId = $realtyRepository->save($realtyEntity)) {
       Helper::$app = $app;
       Helper::savePictures($request->files->all(), $realtyInput['pictures'], $realtyId);
-      Helper::saveMultiple($contacts, $realtyId);
+      Helper::saveMultiple($realtyInput['contacts'], $realtyId);
     }
+  }
+
+  public function saveContact(Application $app) {
+    $request           = Request::createFromGlobals();
+    $contactInput      = $request->request->all();
+    $contactRepository = new Repository\Contact($app['db']);
+    $contactEntity     = new Entity\Contact;
+
+    $contactEntity->setName($contactInput['name']);
+    $contactEntity->setPhones($contactInput['phones']);
+    $contactEntity->setEmails($contactInput['emails']);
+    $contactEntity->setCreatedAt();
+    $contactEntity->setUpdatedAt();
+
+    return $contactRepository->save($contactEntity);
   }
 }

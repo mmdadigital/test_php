@@ -5,7 +5,10 @@
   <span class="field-container__field">
 
     {% if element.type == 'text' %}
-    <input type="text" name="{% if parent %}{{ parent }}[0][{{ name }}]{% else %}{{ name }}{% endif %}">
+    <input type="text" {% if element.value is defined %} value="{{ element.value }}" {% endif %} name="{% if parent %}{{ parent }}[0][{{ name }}]{% else %}{{ name }}{% endif %}" {% if element.disabled is defined %}disabled="{{ element.disabled }}"{% endif %}>
+    {% if element.image_render is defined %}
+      {{ image_render(element.value) }}
+    {% endif %}
     {% endif %}
 
     {% if element.type == 'file' %}
@@ -21,7 +24,15 @@
     {% endif %}
 
     {% if element.type == 'textarea' %}
-    <textarea name="{{ name }}" id="{{ name }}"></textarea>
+    <textarea name="{{ name }}" id="{{ name }}">{% if element.value is defined %}{{ element.value }}{% endif %}</textarea>
+    {% endif %}
+
+    {% if element.type == 'select' %}
+    <select name="{% if parent %}{{ parent }}[0][{{ name }}]{% else %}{{ name }}{% endif %}">
+      {% for value, label in element.options %}
+      <option value="{{ value }}" {% if element.value is defined and value == element.value %}selected="selected"{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
     {% endif %}
 
     {% if element.type == 'multiple' %}
@@ -35,14 +46,6 @@
         {% endfor %}
       </fieldset>
     </div>
-    {% endif %}
-
-    {% if element.type == 'select' %}
-    <select name="{{ name }}" id="{{ name }}">
-      {% for value, label in element.options %}
-      <option value="{{ value }}">{{ label }}</option>
-      {% endfor %}
-    </select>
     {% endif %}
 
   </span>

@@ -1,8 +1,0 @@
-<form id="{{ form.name }}" name="{{ form.name }}"{% for attribute, value in form.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
-  <fieldset>
-    <legend>Imóvel</legend>
-    {% for name, element in form.elements %}
-      {{ field_render(name, element) }}
-    {% endfor %}
-  </fieldset>
-</form>

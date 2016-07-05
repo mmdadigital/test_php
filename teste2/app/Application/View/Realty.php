@@ -2,13 +2,17 @@
 namespace Application\View;
 use Symfony\Component\HttpFoundation\Request;
 use Application\Helpers\Helper;
+use Application\Repository;
 use Application\Providers as Provider;
 
 class Realty extends Provider\AbstractClass {
-  public function addForm() {
+  public function addForm($id = 0) {
+    Helper::$app = $this->app;
+
     $form = array(
       'form' => array(
-        'name' => 'add-realty-form',
+        'name'  => 'add-realty-form',
+        'title' => 'Imóvel',
         'attributes' => array(
           'class'   => 'add-realty-form',
           'action'  => $this->app['url_generator']->generate('realtysave'),
@@ -19,12 +23,7 @@ class Realty extends Provider\AbstractClass {
           'realty_type' => array(
             'type'    => 'select',
             'label'   => 'Tipo de imóvel',
-            'options' => array(
-              '1' => 'Casa',
-              '2' => 'Apartamento',
-              '3' => 'Terreno',
-              '4' => 'Chácara',
-            )
+            'options' => Helper::realtyTypes()
           ),
           'address' => array(
             'type'  => 'text',
@@ -65,6 +64,12 @@ class Realty extends Provider\AbstractClass {
       )
     );
 
-    return $this->app['twig']->render('add-realty-form.twig', $form);
+    if ($id) {
+      $realtyRepository = new Repository\Realty($this->app['db']);
+      $realty           = $realtyRepository->load($id[0]);
+      $form             = Helper::populateForm($form, $realty);
+    }
+
+    return $this->app['twig']->render('add-form.twig', $form);
   }
 }

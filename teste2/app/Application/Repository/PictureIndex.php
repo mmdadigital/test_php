@@ -36,7 +36,7 @@ class PictureIndex {
   }
 
   public function loadCollection($realtyId) {
-    $query = "SELECT pi.picture_id, rp.picture, rp.caption
+    $query = "SELECT pi.picture_id, pi.id, rp.picture, rp.caption
               FROM $this->table as pi
               JOIN realty_pictures as rp ON rp.id = pi.picture_id
               WHERE pi.realty_id = $realtyId";
@@ -44,5 +44,13 @@ class PictureIndex {
     $pictures = $this->db->fetchAll($query);
 
     return $pictures;
+  }
+
+  public function delete($ids = array()) {
+    if (empty($ids)) return;
+
+    $query = "DELETE FROM $this->table WHERE id IN (?)";
+
+    $this->db->executeQuery($query, array($ids), array(\Doctrine\DBAL\Connection::PARAM_INT_ARRAY));
   }
 }

@@ -8,6 +8,8 @@ use Application\Providers as Provider;
 class Realty extends Provider\AbstractClass {
   public function addForm($id = 0) {
     Helper::$app = $this->app;
+    $this->app['assets']->addAsset('js', 'jquery-3.0.0.min.js');
+    $this->app['assets']->addAsset('js', 'form.js');
 
     $form = array(
       'form' => array(

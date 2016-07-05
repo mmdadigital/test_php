@@ -34,6 +34,9 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   ),
 ));
 
+// Assets
+$app['assets'] = new Application\Extensions\Assets($app);
+
 // Extend Twig
 new Application\Extensions\TwigForm($app);
 

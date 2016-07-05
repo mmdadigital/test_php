@@ -1,3 +1,4 @@
+{{ head() }}
 <form id="{{ form.name }}" name="{{ form.name }}"{% for attribute, value in form.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
   <fieldset>
     <legend>{{ form.title }}</legend>
@@ -6,3 +7,4 @@
     {% endfor %}
   </fieldset>
 </form>
+{{ bottom() }}

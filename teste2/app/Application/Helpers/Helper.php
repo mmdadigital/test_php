@@ -7,10 +7,8 @@ class Helper {
   public static $app;
 
   public static function savePictures($files, $captions, $realtyId) {
-    $total = count($files['pictures']);
-
-    for ($i = 0; $i < $total; $i++) {
-      $file        = $files['pictures'][$i]['picture'];
+    foreach ($files['pictures'] as $key => $value) {
+      $file        = $value['picture'];
       $newFilename = uniqid().'--'.$file->getClientOriginalName();
       $finalSrc    = 'images/'.$newFilename;
 
@@ -18,7 +16,7 @@ class Helper {
         $pictureEntity = new Entity\Picture;
 
         $pictureEntity->setPicture($finalSrc);
-        $pictureEntity->setCaption($captions[$i]['caption']);
+        $pictureEntity->setCaption($captions[$key]['caption']);
         $pictureEntity->setStatus(1);
         $pictureEntity->setCreatedAt();
         $pictureEntity->setUpdatedAt();
@@ -114,24 +112,18 @@ class Helper {
 
     switch ($fieldname) {
       case 'realty_pictures':
-        if ($data) {
-          $pictureRepository = new Repository\PictureIndex(self::$app['db']);
-          $pictures          = $pictureRepository->loadCollection($data['id']);
-          $collection        = array('fields' => array());
-
-          foreach ($pictures as $key => $value) {
-            $collection['fields'][$key] = array(
-              'picture'        => array(
-                'type'         => 'text',
-                'label'        => 'Imagem',
-                'value'        => $value['picture'],
-                'disabled'     => true,
-                'image_render' => true
+        $defaultFields = $collection = array(
+          'fields' => array(
+            array(
+              'picture' => array(
+                'type'  => 'file',
+                'label' => 'Imagem',
+                'value' => ''
               ),
               'caption' => array(
                 'type'  => 'text',
                 'label' => 'Legenda',
-                'value' => $value['caption'],
+                'value' => ''
               ),
               'add_picture' => array(
                 'type'  => 'button',
@@ -141,34 +133,49 @@ class Helper {
                 'type'  => 'button',
                 'label' => 'Remover Imagem'
               ),
-            );
+            ),
+          ),
+        );
+
+        if ($data) {
+          $pictureRepository = new Repository\PictureIndex(self::$app['db']);
+          $pictures          = $pictureRepository->loadCollection($data['id']);
+
+          if (empty($pictures)) {
+            $collection = $defaultFields;
           }
-        }
-        else {
-          $collection = array(
-            'fields' => array(
-              array(
-                'picture' => array(
-                  'type'  => 'file',
-                  'label' => 'Imagem',
-                  'value' => ''
+          else {
+            $collection = array('fields' => array());
+
+            foreach ($pictures as $key => $value) {
+              $collection['fields'][$key] = array(
+                'picture'        => array(
+                  'type'         => 'text',
+                  'label'        => 'Imagem',
+                  'value'        => $value['picture'],
+                  'disabled'     => true,
+                  'image_render' => true
                 ),
                 'caption' => array(
                   'type'  => 'text',
                   'label' => 'Legenda',
-                  'value' => ''
+                  'value' => $value['caption'],
                 ),
                 'add_picture' => array(
                   'type'  => 'button',
                   'label' => 'Adicionar Imagem'
                 ),
                 'remove_picture' => array(
-                  'type'  => 'button',
-                  'label' => 'Remover Imagem'
+                  'type'    => 'button',
+                  'label'   => 'Remover Imagem',
+                  'data_id' => $value['id']
                 ),
-              ),
-            ),
-          );
+              );
+            }
+          }
+        }
+        else {
+          $collection = $defaultFields;
         }
       break;
 
@@ -215,19 +222,13 @@ class Helper {
       break;
 
       case 'contacts':
-        if ($data) {
-          $contactRepository = new Repository\Contact(self::$app['db']);
-          $contactIds        = json_decode(json_decode($data['contacts']));
-          $contacts          = $contactRepository->load($contactIds);
-          $collection        = array('fields' => array());
-
-          foreach ($contacts as $key => $contact) {
-            $collection['fields'][$key] = array(
+        $defaultFields = $collection = array(
+          'fields' => array(
+            array(
               'name' => array(
                 'type'    => 'select',
                 'label'   => 'Nome',
-                'options' => self::realtyContacts(),
-                'value'   => $contact['id']
+                'options' => self::realtyContacts()
               ),
               'add_contact' => array(
                 'type'  => 'button',
@@ -237,29 +238,44 @@ class Helper {
                 'type'  => 'button',
                 'label' => 'Remover Contato'
               ),
-            );
+            ),
+          )
+        );
+
+        if ($data) {
+          $contactRepository = new Repository\Contact(self::$app['db']);
+          $contactIds        = json_decode(json_decode($data['contacts']));
+          $contacts          = $contactRepository->load($contactIds);
+          $collection        = array('fields' => array());
+
+          if ($contactIds[0] == 0) {
+            $collection = $defaultFields;
           }
-        }
-        else {
-          $collection = array(
-            'fields' => array(
-              array(
+          else {
+            foreach ($contacts as $key => $contact) {
+              $collection['fields'][$key] = array(
                 'name' => array(
                   'type'    => 'select',
                   'label'   => 'Nome',
-                  'options' => array(0 => '--Selecione--', 1 => 'José', 2 => 'Maria', 3 => 'Jaboatina')
+                  'options' => self::realtyContacts(),
+                  'value'   => $contact['id'],
+                  'index'   => $key
                 ),
                 'add_contact' => array(
                   'type'  => 'button',
                   'label' => 'Adicionar Contato'
                 ),
                 'remove_contact' => array(
-                  'type'  => 'button',
-                  'label' => 'Remover Contato'
+                  'type'    => 'button',
+                  'label'   => 'Remover Contato',
+                  'data_id' => $contact['id']
                 ),
-              ),
-            )
-          );
+              );
+            }
+          }
+        }
+        else {
+          $collection = $defaultFields;
         }
       break;
     }
@@ -269,6 +285,12 @@ class Helper {
 
   public static function populateForm($form, $data) {
     foreach ($form['form']['elements'] as $name => $field) {
+      $form['form']['elements']['id'] = array(
+        'type'  => 'hidden',
+        'value' => $data['id'],
+        'label' => ''
+      );
+
       if ($field['type'] !== 'multiple') {
         $form['form']['elements'][$name]['value'] = isset($data[$name]) ? $data[$name] : '';
       }

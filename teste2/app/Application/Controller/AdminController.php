@@ -56,9 +56,33 @@ class AdminController {
     $realtyEntity->setCreatedAt();
     $realtyEntity->setUpdatedAt();
 
+    if(isset($realtyInput['id'])) {
+      $realtyEntity->setId($realtyInput['id']);
+    }
+
+    if (isset($realtyInput['picture_delete'])) {
+      $ids = array();
+
+      foreach ($realtyInput['picture_delete'] as $key => $value) {
+        array_push($ids, $value);
+      }
+
+      $pictureIndexRepository = new Repository\PictureIndex($app['db']);
+      $pictureIndexRepository->delete($ids);
+    }
+
+    if (isset($realtyInput['contact_delete'])) {
+      Helper::$app = $app;
+      Helper::saveMultiple($realtyInput['contacts'], $realtyInput['id']);
+    }
+
     if ($realtyId = $realtyRepository->save($realtyEntity)) {
       Helper::$app = $app;
-      Helper::savePictures($request->files->all(), $realtyInput['pictures'], $realtyId);
+
+      if ($files = $request->files->all()) {
+        Helper::savePictures($files, $realtyInput['pictures'], $realtyId);
+      }
+
       Helper::saveMultiple($realtyInput['contacts'], $realtyId);
     }
   }

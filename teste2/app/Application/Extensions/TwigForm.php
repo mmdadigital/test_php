@@ -13,6 +13,16 @@ class TwigForm  {
       return $app['twig']->render('form-field.twig', array('name' => $fieldname, 'element' => $element, 'parent' => $parent));
     }));
 
+    $app['twig']->addFunction(new \Twig_SimpleFunction('head', function () use ($app) {
+      return $app['twig']->render('head.twig');
+    }));
+
+    $app['twig']->addFunction(new \Twig_SimpleFunction('bottom', function () use ($app) {
+      $assets = $app['assets']->renderAssets();
+
+      return $app['twig']->render('bottom.twig', array('assets' => $assets));
+    }));
+
     $app['twig']->addFunction(new \Twig_SimpleFunction('image_render', function ($path) use ($app, $applicationUrl) {
       $path = $applicationUrl.'/'.$path;
 

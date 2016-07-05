@@ -41,6 +41,13 @@ class AdminController {
     return $form;
   }
 
+  public function editContact(Application $app, $contact) {
+    $view = new View\Contact($app);
+    $form = $view->getAddForm($contact);
+
+    return $form;
+  }
+
   public function saveRealty(Application $app) {
     $request          = Request::createFromGlobals();
     $realtyInput      = $request->request->all();
@@ -98,6 +105,10 @@ class AdminController {
     $contactEntity->setEmails($contactInput['emails']);
     $contactEntity->setCreatedAt();
     $contactEntity->setUpdatedAt();
+
+    if (isset($contactInput['id'])) {
+      $contactEntity->setId($contactInput['id']);
+    }
 
     return $contactRepository->save($contactEntity);
   }

@@ -43,9 +43,16 @@ class Contact {
     return $contacts;
   }
 
-  public function load($ids) {
+  public function loadMultiple($ids) {
     $query    = "SELECT `id`,`name`,`emails`,`phones` FROM $this->table WHERE id IN (".implode(',', $ids).")";
     $contacts = $this->db->fetchAll($query);
+
+    return $contacts;
+  }
+
+  public function load($id) {
+    $query    = "SELECT `id`,`name`,`emails`,`phones` FROM $this->table WHERE id = $id";
+    $contacts = $this->db->fetchAssoc($query);
 
     return $contacts;
   }

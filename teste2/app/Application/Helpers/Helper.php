@@ -180,7 +180,7 @@ class Helper {
       break;
 
       case 'phones':
-        $collection = array(
+        $defaultFields = array(
           'fields' => array(
             array(
               'phone' => array(
@@ -198,10 +198,37 @@ class Helper {
             ),
           ),
         );
+
+        if ($data) {
+          $phones = json_decode($data['phones']);
+
+          foreach ($phones as $key => $phone) {
+            $collection['fields'][$key] = array(
+              'phone' => array(
+                'type'  => 'text',
+                'label' => 'Telefone',
+                'value' => $phone->phone,
+                'index' => $key
+              ),
+              'add_phone' => array(
+                'type'  => 'button',
+                'label' => 'Adicionar telefone',
+              ),
+              'remove_phone' => array(
+                'type'    => 'button',
+                'label'   => 'Remover telefone',
+                'data_id' => $key,
+              ),
+            );
+          }
+        }
+        else {
+          $collection = $defaultFields;
+        }
       break;
 
       case 'emails':
-        $collection = array(
+        $defaultFields = array(
           'fields' => array(
             array(
               'email' => array(
@@ -219,6 +246,33 @@ class Helper {
             ),
           )
         );
+
+        if ($data) {
+          $emails = json_decode($data['emails']);
+
+          foreach ($emails as $key => $email) {
+            $collection['fields'][$key] = array(
+              'email' => array(
+                'type'  => 'text',
+                'label' => 'Email',
+                'value' => $email->email,
+                'index'   => $key
+              ),
+              'add_email' => array(
+                'type'  => 'button',
+                'label' => 'Adicionar email',
+              ),
+              'remove_email' => array(
+                'type'    => 'button',
+                'label'   => 'Remover email',
+                'data_id' => $key,
+              ),
+            );
+          }
+        }
+        else {
+          $collection = $defaultFields;
+        }
       break;
 
       case 'contacts':
@@ -245,7 +299,7 @@ class Helper {
         if ($data) {
           $contactRepository = new Repository\Contact(self::$app['db']);
           $contactIds        = json_decode(json_decode($data['contacts']));
-          $contacts          = $contactRepository->load($contactIds);
+          $contacts          = $contactRepository->loadMultiple($contactIds);
           $collection        = array('fields' => array());
 
           if ($contactIds[0] == 0) {
@@ -300,7 +354,7 @@ class Helper {
             $identifier = 'realty_pictures';
           break;
 
-          case 'contacts':
+          default:
             $identifier = $name;
           break;
         }

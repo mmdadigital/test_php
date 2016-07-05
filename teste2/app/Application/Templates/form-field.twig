@@ -9,7 +9,7 @@
     {% endif %}
 
     {% if element.type == 'text' %}
-    <input type="text" class="{{ name }}-field" {% if element.value is defined %}value="{{ element.value }}"{% endif %} name="{% if parent %}{{ parent }}[0][{{ name }}]{% else %}{{ name }}{% endif %}" {% if element.disabled is defined %}disabled="{{ element.disabled }}"{% endif %}>
+    <input type="text" class="{{ name }}-field" {% if element.value is defined %}value="{{ element.value }}"{% endif %} name="{% if parent %}{{ parent }}{% if element.index is defined %}[{{ element.index }}]{% else %}[0]{% endif %}[{{ name }}]{% else %}{{ name }}{% endif %}" {% if element.disabled is defined %}disabled="{{ element.disabled }}"{% endif %}>
     {% if element.image_render is defined %}
       {{ image_render(element.value) }}
     {% endif %}

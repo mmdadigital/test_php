@@ -2,10 +2,15 @@
 namespace Application\View;
 use Symfony\Component\HttpFoundation\Request;
 use Application\Helpers\Helper;
+use Application\Repository;
 use Application\Providers as Provider;
 
 class Contact extends Provider\AbstractClass {
-  public function addForm() {
+  public function addForm($id = 0) {
+    Helper::$app = $this->app;
+    $this->app['assets']->addAsset('js', 'jquery-3.0.0.min.js');
+    $this->app['assets']->addAsset('js', 'form.js');
+
     $form = array(
       'form' => array(
         'name'  => 'add-contact-form',
@@ -37,6 +42,12 @@ class Contact extends Provider\AbstractClass {
         ),
       )
     );
+
+    if ($id) {
+      $contactRepository = new Repository\Contact($this->app['db']);
+      $contact           = $contactRepository->load($id[0]);
+      $form              = Helper::populateForm($form, $contact);
+    }
 
     return $this->app['twig']->render('add-form.twig', $form);
   }

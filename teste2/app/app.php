@@ -12,7 +12,7 @@ $app['debug'] = true;
 
 // Use Twig Template Engine
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-  'twig.path'    => __DIR__.'/Views',
+  'twig.path'    => __DIR__.'/Application/Templates',
   'twig.options' => array('autoescape' => false),
 ));
 

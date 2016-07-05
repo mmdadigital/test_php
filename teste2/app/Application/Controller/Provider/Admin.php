@@ -13,12 +13,12 @@ class Admin implements ControllerProviderInterface {
 
     /** Imóveis */
     $admin->get('/realties',               'Application\\Controller\\AdminController::index'); // TODO
-    $admin->get('/realties/add',           'Application\\Controller\\AdminController::addRealty');
+    $admin->get('/realties/add',           'Application\\Controller\\AdminController::addRealty')->bind('addrealty');
     $admin->get('/realties/edit/{realty}', 'Application\\Controller\\AdminController::editRealty');
     $admin->post('/realties/save',         'Application\\Controller\\AdminController::saveRealty')->bind('realtysave');
 
     /** Contatos */
-    $admin->get('/contacts/add',           'Application\\Controller\\AdminController::addContact');
+    $admin->get('/contacts/add',           'Application\\Controller\\AdminController::addContact')->bind('addcontact');
     $admin->get('/contacts/edit/{contact}','Application\\Controller\\AdminController::editContact');
     $admin->post('/contacts/save',         'Application\\Controller\\AdminController::saveContact')->bind('contactsave');
 

@@ -29,7 +29,7 @@ class Realty extends Provider\AbstractClass {
           ),
           'address' => array(
             'type'  => 'text',
-            'label' => 'Rua'
+            'label' => 'Endereço'
           ),
           'number' => array(
             'type'  => 'text',
@@ -73,5 +73,16 @@ class Realty extends Provider\AbstractClass {
     }
 
     return $this->app['twig']->render('add-form.twig', $form);
+  }
+
+  public function getPage($id) {
+    Helper::$app           = $this->app;
+    $realtyRepository      = new Repository\Realty($this->app['db']);
+    $pictureRepository     = new Repository\PictureIndex($this->app['db']);
+    $realty                = Helper::prepareCollection(array($realtyRepository->load($id)));
+    $realty[0]['pictures'] = $pictureRepository->loadCollection($id);
+    $realty[0]['related']  = Helper::getRelatedRealties('region', $realty[0]);
+
+    return $this->app['twig']->render('realty.twig', array('realty' => $realty[0]));
   }
 }

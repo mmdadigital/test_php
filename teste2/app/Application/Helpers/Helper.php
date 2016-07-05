@@ -365,4 +365,39 @@ class Helper {
 
     return $form;
   }
+
+  public static function prepareCollection($collection) {
+    foreach ($collection as $key => $item) {
+      if (isset($item['contacts'])) {
+        $contactRepository            = new Repository\Contact(self::$app['db']);
+        $ids                          = json_decode(json_decode($item['contacts']));
+        $contacts                     = self::prepareCollection($contactRepository->loadMultiple($ids));
+        $collection[$key]['contacts'] = $contacts;
+      }
+
+      if (isset($item['phones'])) {
+        $phones                     = json_decode($item['phones']);
+        $collection[$key]['phones'] = $phones;
+      }
+
+      if (isset($item['emails'])) {
+        $emails                     = json_decode($item['emails']);
+        $collection[$key]['emails'] = $emails;
+      }
+    }
+
+    return $collection;
+  }
+
+  public static function getRelatedRealties($field, $realty) {
+    $realtyRepository  = new Repository\Realty(self::$app['db']);
+    $pictureRepository = new Repository\PictureIndex(self::$app['db']);
+    $relatedRealties   = self::prepareCollection($realtyRepository->getByField($field, $realty[$field]));
+
+    foreach ($relatedRealties as $key => $realty) {
+      $relatedRealties[$key]['pictures'] = $pictureRepository->loadCollection($realty['id']);
+    }
+
+    return $relatedRealties;
+  }
 }

@@ -91,6 +91,8 @@ class AdminController {
       }
 
       Helper::saveMultiple($realtyInput['contacts'], $realtyId);
+
+      return $app->redirect($app['url_generator']->generate('addrealty'));
     }
   }
 
@@ -110,6 +112,8 @@ class AdminController {
       $contactEntity->setId($contactInput['id']);
     }
 
-    return $contactRepository->save($contactEntity);
+    if($contactRepository->save($contactEntity)) {
+      return $app->redirect($app['url_generator']->generate('addcontact'));
+    }
   }
 }

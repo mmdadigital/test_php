@@ -36,7 +36,7 @@ class PictureIndex {
   }
 
   public function loadCollection($realtyId) {
-    $query = "SELECT pi.picture_id, pi.id, rp.picture, rp.caption
+    $query = "SELECT DISTINCT pi.picture_id, pi.id, rp.picture, rp.caption
               FROM $this->table as pi
               JOIN realty_pictures as rp ON rp.id = pi.picture_id
               WHERE pi.realty_id = $realtyId";

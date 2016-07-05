@@ -42,11 +42,38 @@ class Realty {
     return $realty->getId();
   }
 
+  public function getCollection() {
+    $query = "SELECT DISTINCT r.id, r.address, r.number, r.city, r.region, r.description, r.contacts, rt.type
+              FROM $this->table as r
+              JOIN realty_types as rt ON r.realty_type = rt.id
+              JOIN picture_index as pi ON r.id = pi.realty_id";
+
+    $types = $this->db->fetchAll($query);
+
+    return $types;
+  }
+
   public function load($id) {
-    $query  = "SELECT * FROM `$this->table` WHERE `id` = $id";
+    $query  = "SELECT r.id, r.address, r.number, r.city, r.region, r.description, r.contacts, rt.type
+               FROM $this->table as r
+               JOIN realty_types as rt on rt.id = r.realty_type
+               JOIN picture_index as pi ON r.id = pi.realty_id
+               WHERE r.id = $id";
     $realty = $this->db->fetchAssoc($query);
 
     return $realty;
+  }
+
+  public function getByField($field, $value, $limit = 3) {
+    $query = "SELECT DISTINCT r.id, r.address, r.number, r.city, r.region, r.description, r.contacts, rt.type
+               FROM $this->table as r
+               JOIN realty_types as rt on rt.id = r.realty_type
+               JOIN picture_index as pi ON r.id = pi.realty_id
+               WHERE r.$field = '$value'
+               LIMIT $limit";
+    $types = $this->db->fetchAll($query);
+
+    return $types;
   }
 
   protected function prepare($data) {

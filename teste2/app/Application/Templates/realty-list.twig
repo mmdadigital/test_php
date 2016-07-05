@@ -1,0 +1,13 @@
+{{ head() }}
+<div class="realty">
+  <ul class="realty__list">
+    {% for realty in realties %}
+    <li class="realty__list__item">
+      <a href="{{ app.url_generator.generate('realtyview', {'id': realty.id}) }}">
+        <strong>{{ realty.type }}</strong> - {{ realty.address }}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{{ bottom() }}

@@ -1,0 +1,12 @@
+{{ head() }}
+<form id="{{ form.name }}" name="{{ form.name }}"{% for attribute, value in form.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
+  <fieldset>
+    <legend>
+      <h1>{{ form.title }}</h1>
+    </legend>
+    {% for name, element in form.elements %}
+      {{ field_render(name, element) }}
+    {% endfor %}
+  </fieldset>
+</form>
+{{ bottom() }}

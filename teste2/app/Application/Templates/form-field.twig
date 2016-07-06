@@ -8,6 +8,10 @@
     <input type="hidden" name="{{ name }}" value="{{ element.value }}">
     {% endif %}
 
+    {% if element.type == 'password' %}
+    <input type="password" name="{{ name }}">
+    {% endif %}
+
     {% if element.type == 'text' %}
     <input type="text" class="{{ name }}-field" {% if element.value is defined %}value="{{ element.value }}"{% endif %} name="{% if parent %}{{ parent }}{% if element.index is defined %}[{{ element.index }}]{% else %}[0]{% endif %}[{{ name }}]{% else %}{{ name }}{% endif %}" {% if element.disabled is defined %}disabled="{{ element.disabled }}"{% endif %}>
     {% if element.image_render is defined %}

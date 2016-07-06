@@ -1,6 +1,4 @@
 <?php
-use Silex\Provider\FormServiceProvider;
-
 define('ROOT', __DIR__);
 define('APP_URL', 'http://localhost.testephp/teste2/app');
 
@@ -15,9 +13,6 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path'    => __DIR__.'/Application/Templates',
   'twig.options' => array('autoescape' => false),
 ));
-
-// Enable Session State
-$app->register(new Silex\Provider\SessionServiceProvider());
 
 // URL Generator
 $app->register(new Silex\Provider\RoutingServiceProvider());

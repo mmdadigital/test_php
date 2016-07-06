@@ -1,0 +1,5 @@
+{
+    "require": {
+        "symfony/security": "^3.1"
+    }
+}

@@ -7,9 +7,8 @@ class Admin implements ControllerProviderInterface {
   public function connect(Application $app) {
     $admin = $app['controllers_factory'];
 
-    $admin->get('/login',                  'Application\\Controller\\AdminController::login'); // TODO
-    $admin->post('/login',                 'Application\\Controller\\AdminController::auth'); // TODO
-    $admin->get('/dashboard',              'Application\\Controller\\AdminController::index'); // TODO
+    /** Authentication */
+    $admin->post('/auth',                  'Application\\Controller\\AdminController::auth')->bind('auth');
 
     /** Imóveis */
     $admin->get('/realties/add',           'Application\\Controller\\AdminController::addRealty')->bind('addrealty');

@@ -8,16 +8,8 @@ use Application\Helpers\Helper;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminController {
-  public function login() {
-    return 'Página de login';
-  }
-
   public function auth($data) {
     return 'Post Login';
-  }
-
-  public function index() {
-    return 'Painel';
   }
 
   public function addRealty(Application $app) {

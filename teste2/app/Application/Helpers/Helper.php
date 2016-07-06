@@ -393,11 +393,18 @@ class Helper {
     $realtyRepository  = new Repository\Realty(self::$app['db']);
     $pictureRepository = new Repository\PictureIndex(self::$app['db']);
     $relatedRealties   = self::prepareCollection($realtyRepository->getByField($field, $realty[$field]));
-
-    foreach ($relatedRealties as $key => $realty) {
-      $relatedRealties[$key]['pictures'] = $pictureRepository->loadCollection($realty['id']);
-    }
+    $relatedRealties   = self::getPictures($relatedRealties);
 
     return $relatedRealties;
+  }
+
+  public static function getPictures($realties) {
+    $pictureRepository = new Repository\PictureIndex(self::$app['db']);
+
+    foreach ($realties as $key => $realty) {
+      $realties[$key]['pictures'] = $pictureRepository->loadCollection($realty['id']);
+    }
+
+    return $realties;
   }
 }

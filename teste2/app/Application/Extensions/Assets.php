@@ -9,6 +9,9 @@ class Assets {
     $this->assets     = array();
     $this->assetsPath = APP_URL.'/assets';
     $this->app        = $app;
+
+    // Include default assets.
+    $this->addAsset('css', 'app.min.css');
   }
 
   public function addAsset($type, $asset) {

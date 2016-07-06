@@ -28,5 +28,9 @@ class TwigForm  {
 
       return $app['twig']->render('form-image.twig', array('path' => $path));
     }));
+
+    $app['twig']->addFunction(new \Twig_SimpleFunction('image_url', function ($path) use ($app, $applicationUrl) {
+      return $applicationUrl.'/'.$path;
+    }));
   }
 }

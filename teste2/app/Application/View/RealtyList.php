@@ -9,8 +9,7 @@ class RealtyList extends Provider\AbstractClass {
     Helper::$app      = $this->app;
     $realtyRepository = new Repository\Realty($this->app['db']);
     $realties         = Helper::prepareCollection($realtyRepository->getCollection());
-
-    dump($realtyRepository->getCollection());
+    $realties         = Helper::getPictures($realties);
 
     return $this->app['twig']->render('realty-list.twig', array('realties' => $realties));
   }

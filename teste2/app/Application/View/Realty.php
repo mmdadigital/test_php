@@ -76,6 +76,10 @@ class Realty extends Provider\AbstractClass {
   }
 
   public function getPage($id) {
+    $this->app['assets']->addAsset('js', 'jquery-3.0.0.min.js');
+    $this->app['assets']->addAsset('js', 'jquery.slides.min.js');
+    $this->app['assets']->addAsset('js', 'slider.js');
+
     Helper::$app           = $this->app;
     $realtyRepository      = new Repository\Realty($this->app['db']);
     $pictureRepository     = new Repository\PictureIndex($this->app['db']);

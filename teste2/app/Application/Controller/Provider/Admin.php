@@ -12,7 +12,6 @@ class Admin implements ControllerProviderInterface {
     $admin->get('/dashboard',              'Application\\Controller\\AdminController::index'); // TODO
 
     /** Imóveis */
-    $admin->get('/realties',               'Application\\Controller\\AdminController::index'); // TODO
     $admin->get('/realties/add',           'Application\\Controller\\AdminController::addRealty')->bind('addrealty');
     $admin->get('/realties/edit/{realty}', 'Application\\Controller\\AdminController::editRealty');
     $admin->post('/realties/save',         'Application\\Controller\\AdminController::saveRealty')->bind('realtysave');

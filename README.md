@@ -1,3 +1,14 @@
+# Instalação
+
+1- Mova a pasta do projeto para /var/www ou algum outro diretório em conjunto a um vhost.
+
+2- Rode o arquivo testes1e2.sql em seu banco MySQL para criar as tabelas necessárias.
+
+3- Entre no diretório do projeto via command line e rode composer install. Isto irá baixar as dependências do projeto.
+
+4- Edite o arquivo src/core/Database.php, método getSettings com a sua configuração do MySQL.
+
+
 # TESTE DE PHP
 
 Neste teste, para vaga de programador **PHP Pleno/Sênior**, Espera-se que o candidato tenha conhecimento de Orientação a Objeto e MVC, tenha boa lógica para fazer código sucinto e reusável, e que mantenha os códigos organizados e documentados.

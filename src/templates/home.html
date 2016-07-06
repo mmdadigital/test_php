@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>MMDA Test 1 and 2</title>
+      <script src="{{jquery}}"></script>
+      <script src="{{app_js}}"></script>
+      <script>
+        var App = {'menuSettings': {{menu_settings|json_encode|raw}}};
+      </script>
+  </head>
+  <body>
+    <div id="app-menu">{{menu|raw}}</div>
+    <p>
+      <a href="/adicionar-contato">Adicionar Contato</a>
+      <a href="/adicionar-imovel">Adicionar Imóvel</a>
+      <a href="/adicionar-tipo-imovel">Adicionar Tipo de Imóvel</a>
+      <a href="/imoveis">Listagem de imóveis</a>
+    </p>
+  </body>
+</html>

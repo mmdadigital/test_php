@@ -1,5 +1,6 @@
 {{ head() }}
-<form id="{{ form.name }}" name="{{ form.name }}"{% for attribute, value in form.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
+<form id="{{ form.name }}" action="{{ path('auth') }}" name="{{ form.name }}"{% for attribute, value in form.attributes %} {{ attribute }}="{{ value }}"{% endfor %}>
+  {{ error }}
   <fieldset>
     <legend>
       <h1>{{ form.title }}</h1>

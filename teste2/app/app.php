@@ -38,5 +38,18 @@ new Application\Extensions\TwigForm($app);
 // Application Routes
 require_once __DIR__.'/routes.php';
 
+$app->register(new Silex\Provider\SessionServiceProvider());
+$app->register(new Silex\Provider\SecurityServiceProvider(), array(
+  'security.firewalls' => array(
+    'admin' => array(
+      'pattern' => '^/admin/',
+      'form' => array('login_path' => '/login', 'check_path' => '/admin/auth'),
+      'users' => array(
+        'admin' => array('ROLE_ADMIN', '$2y$10$3i9/lVd8UOFIJ6PAMFt8gu3/r5g0qeCJvoSlLCsvMTythye19F77a'),
+      ),
+    ),
+  )
+));
+
 // Run Application
 $app->run();

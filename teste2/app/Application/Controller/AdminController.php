@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdminController {
   public function auth($data) {
+    dump($data);
     return 'Post Login';
   }
 

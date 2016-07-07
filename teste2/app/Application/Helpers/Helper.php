@@ -3,9 +3,19 @@ namespace Application\Helpers;
 use Application\Entity;
 use Application\Repository;
 
+/**
+ * Helper methods
+ * Provide common methods through the Application.
+ */
 class Helper {
   public static $app;
 
+  /**
+   * Save realty pictures
+   * @param array   $files    Array of file name to save.
+   * @param array   $captions Array of captions to save.
+   * @param integer $realtyId Realty which images belong to.
+   */
   public static function savePictures($files, $captions, $realtyId) {
     foreach ($files['pictures'] as $key => $value) {
       $file        = $value['picture'];
@@ -38,6 +48,11 @@ class Helper {
     }
   }
 
+  /**
+   * Save multiple fields
+   * @param array   $fields   Array of fields to save.
+   * @param integer $realtyId Realty which images belong to.
+   */
   public static function saveMultiple($fields, $realtyId) {
     $realtyEntity = new Entity\Realty;
     $ids          = array();
@@ -53,6 +68,9 @@ class Helper {
     $realtyRepository->save($realtyEntity);
   }
 
+  /**
+   * Get realty types list
+   */
   public static function realtyTypes() {
     $type           = new Repository\Type(self::$app['db']);
     $typeCollection = array(0 => '--Selecione--');
@@ -64,6 +82,9 @@ class Helper {
     return $typeCollection;
   }
 
+  /**
+   * Get realty all contacts list
+   */
   public static function realtyContacts() {
     $contactRepository = new Repository\Contact(self::$app['db']);
     $contactCollection = array(0 => '--Selecione--');
@@ -75,6 +96,9 @@ class Helper {
     return $contactCollection;
   }
 
+  /**
+   * Get regions
+   */
   public static function regions() {
     return array(
       "AC" => "Acre",
@@ -107,6 +131,11 @@ class Helper {
     );
   }
 
+  /**
+   * Get a field collection array
+   * @param string $fieldname Field collection name.
+   * @param array  $data      Field data.
+   */
   public static function fieldCollection($fieldname = '', $data = null) {
     if (!$fieldname) return array();
 
@@ -337,6 +366,11 @@ class Helper {
     return $collection;
   }
 
+  /**
+   * Populate a form with provided data
+   * @param array $form Form array.
+   * @param array $data Form data.
+   */
   public static function populateForm($form, $data) {
     foreach ($form['form']['elements'] as $name => $field) {
       $form['form']['elements']['id'] = array(
@@ -366,6 +400,10 @@ class Helper {
     return $form;
   }
 
+  /**
+   * Prepare a collection of items populating encoded data
+   * @param array $form The item collection.
+   */
   public static function prepareCollection($collection) {
     foreach ($collection as $key => $item) {
       if (isset($item['contacts'])) {
@@ -389,6 +427,11 @@ class Helper {
     return $collection;
   }
 
+  /**
+   * Get realties related to another realty, filtering by a common field
+   * @param string  $field Field name.
+   * @param integer $realty Realty id.
+   */
   public static function getRelatedRealties($field, $realty) {
     $realtyRepository  = new Repository\Realty(self::$app['db']);
     $pictureRepository = new Repository\PictureIndex(self::$app['db']);
@@ -398,6 +441,10 @@ class Helper {
     return $relatedRealties;
   }
 
+  /**
+   * Get picutes form a list of realties
+   * @param array   $realties List of realties.
+   */
   public static function getPictures($realties) {
     $pictureRepository = new Repository\PictureIndex(self::$app['db']);
 

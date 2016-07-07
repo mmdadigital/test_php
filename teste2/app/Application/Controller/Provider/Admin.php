@@ -3,7 +3,16 @@ namespace Application\Controller\Provider;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 
+/**
+ * Admin controller provider
+ * Provide controllers for application admin routes.
+ */
 class Admin implements ControllerProviderInterface {
+  /**
+   * Connect mounted routes.
+   * @param  object $app   Main Application instance.
+   * @return object $front Return all routes defined by this mount.
+   */
   public function connect(Application $app) {
     $admin = $app['controllers_factory'];
 

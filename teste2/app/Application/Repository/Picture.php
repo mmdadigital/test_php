@@ -3,6 +3,9 @@ namespace Application\Repository;
 use Doctrine\DBAL\Connection;
 use Application\Entity;
 
+/**
+ * Picture Model/Repository
+ */
 class Picture {
   protected $db;
 
@@ -10,6 +13,9 @@ class Picture {
     $this->db = $db;
   }
 
+  /**
+   * Save a picture
+   */
   public function save($picture) {
     $pictureData = array(
       'picture'    => $picture->getPicture(),

@@ -1,6 +1,9 @@
 <?php
 namespace Application\Providers;
 
+/**
+ * Abstract class for an Entity
+ */
 abstract class AbstractEntity {
   protected $id;
   protected $createdAt;

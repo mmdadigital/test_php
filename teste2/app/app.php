@@ -1,23 +1,17 @@
 <?php
+/** Application root path */
 define('ROOT', __DIR__);
+
+/** Application URL */
 define('APP_URL', 'http://localhost.testephp/teste2/app');
 
-// Starting Application
+/** Starting Application */
 $app = new Silex\Application();
 
-// Debug mode
+/** Debug mode */
 $app['debug'] = true;
 
-// Use Twig Template Engine
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
-  'twig.path'    => __DIR__.'/Application/Templates',
-  'twig.options' => array('autoescape' => false),
-));
-
-// URL Generator
-$app->register(new Silex\Provider\RoutingServiceProvider());
-
-// Doctrine DBAL (Database connection)
+/** Database connection */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   'db.options' => array(
     'driver'   => 'pdo_mysql',
@@ -29,15 +23,13 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   ),
 ));
 
-// Assets
-$app['assets'] = new Application\Extensions\Assets($app);
+/** Template Engine */
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+  'twig.path'    => __DIR__.'/Application/Templates',
+  'twig.options' => array('autoescape' => false),
+));
 
-// Extend Twig
-new Application\Extensions\TwigForm($app);
-
-// Application Routes
-require_once __DIR__.'/routes.php';
-
+/** Securing application */
 $app->register(new Silex\Provider\SessionServiceProvider());
 $app->register(new Silex\Provider\SecurityServiceProvider(), array(
   'security.firewalls' => array(
@@ -51,5 +43,17 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
   )
 ));
 
-// Run Application
+/** URL Generator */
+$app->register(new Silex\Provider\RoutingServiceProvider());
+
+/** Assets */
+$app['assets'] = new Application\Extensions\Assets($app);
+
+/** Extending Twig */
+new Application\Extensions\TwigForm($app);
+
+/** Application Routes */
+require_once __DIR__.'/routes.php';
+
+/** Run Application */
 $app->run();

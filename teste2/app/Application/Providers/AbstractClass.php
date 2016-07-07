@@ -3,9 +3,15 @@ namespace Application\Providers;
 use Silex\Application;
 use \ReflectionMethod;
 
+/**
+ * Abstract class for a view
+ */
 abstract class AbstractClass {
   protected $app;
 
+  /**
+   * Assign the main Application instance to the class
+   */
   public function __construct($app) {
     if ($app) {
       $this->app = $app;
@@ -15,6 +21,9 @@ abstract class AbstractClass {
     }
   }
 
+  /**
+   * Check for magic methods
+   */
   public function __call($method, $parameters) {
     $method = preg_replace('/^get/', '', lcfirst($method));
 

@@ -7,12 +7,23 @@ use Application\Entity;
 use Application\Helpers\Helper;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Admin controller
+ * All the Application admin actions.
+ */
 class AdminController {
+  /**
+   * Authentication route
+   */
   public function auth($data) {
-    dump($data);
-    return 'Post Login';
+    return 'ok';
   }
 
+  /**
+   * Add realty form
+   * @param  object $app   Main Application instance.
+   * @return object $front Return the view with a form
+   */
   public function addRealty(Application $app) {
     $view = new View\Realty($app);
     $form = $view->getAddForm();
@@ -20,6 +31,12 @@ class AdminController {
     return $form;
   }
 
+  /**
+   * Edit realty form
+   * @param  object  $app    Main Application instance.
+   * @param  integer $realty Realty id.
+   * @return object  $front  Return the view with a form with loaded realty data
+   */
   public function editRealty(Application $app, $realty) {
     $view = new View\Realty($app);
     $form = $view->getAddForm($realty);
@@ -27,6 +44,11 @@ class AdminController {
     return $form;
   }
 
+  /**
+   * Add contact form
+   * @param  object $app   Main Application instance.
+   * @return object $front Return the view with a form
+   */
   public function addContact(Application $app) {
     $view = new View\Contact($app);
     $form = $view->getAddForm();
@@ -34,6 +56,12 @@ class AdminController {
     return $form;
   }
 
+  /**
+   * Edit contact form
+   * @param  object  $app     Main Application instance.
+   * @param  integer $contact Contact id.
+   * @return object  $front   Return the view with a form with loaded contact data
+   */
   public function editContact(Application $app, $contact) {
     $view = new View\Contact($app);
     $form = $view->getAddForm($contact);
@@ -41,6 +69,10 @@ class AdminController {
     return $form;
   }
 
+  /**
+   * Save a realty to the database
+   * @param object $app Main Application instance.
+   */
   public function saveRealty(Application $app) {
     $request          = Request::createFromGlobals();
     $realtyInput      = $request->request->all();
@@ -89,6 +121,10 @@ class AdminController {
     }
   }
 
+  /**
+   * Save a contact to the database
+   * @param object $app Main Application instance.
+   */
   public function saveContact(Application $app) {
     $request           = Request::createFromGlobals();
     $contactInput      = $request->request->all();

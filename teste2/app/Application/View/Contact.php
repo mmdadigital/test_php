@@ -5,7 +5,15 @@ use Application\Helpers\Helper;
 use Application\Repository;
 use Application\Providers as Provider;
 
+/**
+ * Contact view
+ * Get and set all data before render a template
+ */
 class Contact extends Provider\AbstractClass {
+  /**
+   * Add a form to the view
+   * @param integer $id Contact id
+   */
   public function addForm($id = 0) {
     Helper::$app = $this->app;
     $this->app['assets']->addAsset('js', 'jquery-3.0.0.min.js');

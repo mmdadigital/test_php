@@ -2,6 +2,10 @@
 namespace Application\Entity;
 use Application\Providers;
 
+/**
+ * Entity skeleton
+ * Object representation of Entity data (get and set data).
+ */
 class PictureIndex extends Providers\AbstractEntity {
   protected $realty_id;
   protected $picture_id;

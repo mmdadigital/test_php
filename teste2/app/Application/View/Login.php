@@ -4,7 +4,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Application\Helpers\Helper;
 use Application\Providers as Provider;
 
+/**
+ * Login view
+ * Get and set all data before render a template
+ */
 class Login extends Provider\AbstractClass {
+  /**
+   * Add a form to the view
+   */
   public function addForm() {
     $request     = Request::createFromGlobals();
     Helper::$app = $this->app;

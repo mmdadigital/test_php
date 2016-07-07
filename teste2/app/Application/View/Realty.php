@@ -5,7 +5,15 @@ use Application\Helpers\Helper;
 use Application\Repository;
 use Application\Providers as Provider;
 
+/**
+ * Realty view
+ * Get and set all data before render a template
+ */
 class Realty extends Provider\AbstractClass {
+  /**
+   * Add a form to the view
+   * @param integer $id Realty id
+   */
   public function addForm($id = 0) {
     Helper::$app = $this->app;
     $this->app['assets']->addAsset('js', 'jquery-3.0.0.min.js');
@@ -75,6 +83,10 @@ class Realty extends Provider\AbstractClass {
     return $this->app['twig']->render('add-form.twig', $form);
   }
 
+  /**
+   * Get the single realty page template
+   * @param integer $id Realty id
+   */
   public function getPage($id) {
     $this->app['assets']->addAsset('js', 'jquery-3.0.0.min.js');
     $this->app['assets']->addAsset('js', 'jquery.slides.min.js');

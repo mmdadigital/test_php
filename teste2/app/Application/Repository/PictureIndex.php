@@ -3,6 +3,9 @@ namespace Application\Repository;
 use Doctrine\DBAL\Connection;
 use Application\Entity;
 
+/**
+ * PictureIndex Model/Repository
+ */
 class PictureIndex {
   protected $db;
   protected $table;
@@ -12,6 +15,9 @@ class PictureIndex {
     $this->table = 'picture_index';
   }
 
+  /**
+   * Save a picture to the index
+   */
   public function save($pictureIndex) {
     $pictureIndexData = array(
       'realty_id'  => $pictureIndex->getRealtyId(),
@@ -35,6 +41,10 @@ class PictureIndex {
     return $pictureIndex->getId();
   }
 
+  /**
+   * Load a collection of pictures indexed to a realty
+   * @param integer $realtyId The id of a realty which pictures belongs to
+   */
   public function loadCollection($realtyId) {
     $query = "SELECT DISTINCT pi.picture_id, pi.id, rp.picture, rp.caption
               FROM $this->table as pi
@@ -46,6 +56,10 @@ class PictureIndex {
     return $pictures;
   }
 
+  /**
+   * Delete one or more pictures from the index
+   * @param array $ids An array of ids to delete
+   */
   public function delete($ids = array()) {
     if (empty($ids)) return;
 

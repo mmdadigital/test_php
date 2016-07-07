@@ -4,7 +4,14 @@ use Application\Helpers\Helper;
 use Application\Repository;
 use Application\Providers as Provider;
 
+/**
+ * RealtyList view
+ * Get and set all data before render a template
+ */
 class RealtyList extends Provider\AbstractClass {
+  /**
+   * Get the realty list page template
+   */
   public function getPage() {
     Helper::$app      = $this->app;
     $realtyRepository = new Repository\Realty($this->app['db']);

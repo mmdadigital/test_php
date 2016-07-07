@@ -11,6 +11,15 @@ $app = new Silex\Application();
 /** Debug mode */
 $app['debug'] = true;
 
+/** Template Engine */
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+  'twig.path'    => __DIR__.'/Application/Templates',
+  'twig.options' => array('autoescape' => false),
+));
+
+/** URL Generator */
+$app->register(new Silex\Provider\RoutingServiceProvider());
+
 /** Database connection */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   'db.options' => array(
@@ -23,11 +32,14 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   ),
 ));
 
-/** Template Engine */
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
-  'twig.path'    => __DIR__.'/Application/Templates',
-  'twig.options' => array('autoescape' => false),
-));
+/** Assets */
+$app['assets'] = new Application\Extensions\Assets($app);
+
+/** Extending Twig */
+new Application\Extensions\TwigForm($app);
+
+/** Application Routes */
+require_once __DIR__.'/routes.php';
 
 /** Securing application */
 $app->register(new Silex\Provider\SessionServiceProvider());
@@ -42,18 +54,6 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), array(
     ),
   )
 ));
-
-/** URL Generator */
-$app->register(new Silex\Provider\RoutingServiceProvider());
-
-/** Assets */
-$app['assets'] = new Application\Extensions\Assets($app);
-
-/** Extending Twig */
-new Application\Extensions\TwigForm($app);
-
-/** Application Routes */
-require_once __DIR__.'/routes.php';
 
 /** Run Application */
 $app->run();

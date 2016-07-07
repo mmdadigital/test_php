@@ -1,0 +1,77 @@
+.realty {
+  @include element(slides) {
+    @extend %card;
+    display: none;
+    text-align: center;
+
+    @include element(list) {
+      display: inline-block;
+    }
+
+    .form-image {
+      text-align: center;
+    }
+
+    .slidesjs-navigation {
+      margin-right: 20px;
+    }
+
+    .slidesjs-pagination {
+      float: right;
+
+      li {
+        margin-left: 10px;
+      }
+    }
+
+    .slidesjs-navigation,
+    .slidesjs-pagination li {
+      float: left;
+    }
+  }
+
+  @include element(info) {
+    @extend %card;
+  }
+
+  @include element(description) {
+    margin-bottom: 2em;
+  }
+
+  @include element(city) {
+    font-size: 16px;
+  }
+
+  @include element(type) {
+    margin-top: .5em;
+  }
+}
+
+.related {
+  @include element(realties) {
+    @extend %card;
+
+    @include element(list) {
+      font-size: 0;
+
+      @include element(realty) {
+        display: inline-block;
+        margin-right: 20px;
+        width: calc(33.33% - 14px);
+
+        &:nth-last-of-type(1) {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .form-image {
+      @include aspect-ratio(16, 9, img);
+      overflow: hidden;
+    }
+
+    h3 {
+      font-size: 19px;
+    }
+  }
+}

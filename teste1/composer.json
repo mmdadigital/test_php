@@ -1,0 +1,14 @@
+{
+    "name": "wellingtondutra/menubuilder",
+    "description": "A simple menu builder using an array as the source. (Teste PHP MMDA)",
+    "require": {
+        "twig/twig": "^1.24",
+        "laravel/lumen-installer": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Wellington Dutra",
+            "email": "wellingtonsdutra@gmail.com"
+        }
+    ]
+}

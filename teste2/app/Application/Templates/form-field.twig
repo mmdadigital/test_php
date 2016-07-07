@@ -1,0 +1,62 @@
+<div class="field-container {% if element.type == 'button' %}inline{% endif %}">
+  {% if element.type != 'submit' and element.type != 'button' and element.type != 'multiple' %}
+  <span class="field-container__label">{{ element.label }}</span>
+  {% endif %}
+  <span class="field-container__field">
+
+    {% if element.type == 'hidden' %}
+    <input type="hidden" name="{{ name }}" value="{{ element.value }}">
+    {% endif %}
+
+    {% if element.type == 'password' %}
+    <input type="password" name="{{ name }}">
+    {% endif %}
+
+    {% if element.type == 'text' %}
+    <input type="text" class="{{ name }}-field" {% if element.value is defined %}value="{{ element.value }}"{% endif %} name="{% if parent %}{{ parent }}{% if element.index is defined %}[{{ element.index }}]{% else %}[0]{% endif %}[{{ name }}]{% else %}{{ name }}{% endif %}" {% if element.disabled is defined %}disabled="{{ element.disabled }}"{% endif %}>
+    {% if element.image_render is defined %}
+      {{ image_render(element.value) }}
+    {% endif %}
+    {% endif %}
+
+    {% if element.type == 'file' %}
+    <input type="file" class="{{ name }}-field" name="{% if parent %}{{ parent }}[0][{{ name }}]{% else %}{{ name }}{% endif %}">
+    {% endif %}
+
+    {% if element.type == 'submit' %}
+    <input type="submit" name="{{ name }}" id="{{ name }}" value="{{ element.label }}">
+    {% endif %}
+
+    {% if element.type == 'button' %}
+    <button {% if element.data_id is defined %}data-id="{{ element.data_id }}"{% endif %} name="{{ name }}" class="{{ name }}-btn" id="{{ name }}">{{ element.label }}</button>
+    {% endif %}
+
+    {% if element.type == 'textarea' %}
+    <textarea name="{{ name }}" id="{{ name }}">{% if element.value is defined %}{{ element.value }}{% endif %}</textarea>
+    {% endif %}
+
+    {% if element.type == 'select' %}
+    <select class="{{ name }}-field" name="{% if parent %}{{ parent }}{% if element.index is defined %}[{{ element.index }}]{% else %}[0]{% endif %}[{{ name }}]{% else %}{{ name }}{% endif %}">
+      {% for value, label in element.options %}
+      <option value="{{ value }}" {% if element.value is defined and value == element.value %}selected="selected"{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    {% endif %}
+
+    {% if element.type == 'multiple' %}
+    <div class="form-container {{ name }}">
+      <fieldset>
+        <legend>{{ element.label }}</legend>
+          {% for key, field in element.collection.fields %}
+          <div class="form-container__row">
+            {% for fieldname, el in field %}
+              {{ field_render(fieldname, el, name) }}
+            {% endfor %}
+          </div>
+          {% endfor %}
+      </fieldset>
+    </div>
+    {% endif %}
+
+  </span>
+</div>

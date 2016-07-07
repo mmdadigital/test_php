@@ -1,0 +1,11 @@
+{% for asset in assets %}
+
+{% if asset.type == 'js' %}
+<script type="text/javascript" src="{{ asset.src }}"></script>
+{% endif %}
+
+{% if asset.type == 'css' %}
+<link rel="stylesheet" href="{{ asset.src }}" media="screen" charset="utf-8">
+{% endif %}
+
+{% endfor %}

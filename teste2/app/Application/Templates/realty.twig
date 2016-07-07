@@ -1,0 +1,76 @@
+{{ head() }}
+<div class="realty">
+  <div class="realty__container">
+    <div class="realty__slides" id="slides">
+      {% for picture in realty.pictures %}
+        {{ image_render(picture.picture) }}
+      {% endfor %}
+    </div>
+    <div class="realty__info">
+      <h1 class="realty__type">{{ realty.type }}</h1>
+      <div class="realty__address">
+        <ul class="realty__address">
+          <li class="realty__address__item">
+            <span>Endereço: </span> {{ realty.address }}, {{ realty.number }}
+          </li>
+          <li class="realty__address__item">
+            <span>Cidade: </span> {{ realty.city }}
+          </li>
+          <li class="realty__address__item">
+            <span>Estado: </span> {{ realty.region }}
+          </li>
+        </ul>
+      </div>
+      <div class="realty__description">{{ realty.description }}</div>
+      <div class="realty__contacts">
+        <h3>Contato:</h3>
+        <ul class="realty__contacts__list">
+          {% for contact in realty.contacts %}
+          <li class="realty__contacts__list__contact">
+            <div class="contact__name">
+              {{ contact.name }}
+            </div>
+            <div class="contact__emails">
+              <ul class="contact__emails__list">
+                {% for email in contact.emails %}
+                <li class="contact__emails__list__item">
+                  {{ email.email }}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="contact__phones">
+              <ul class="contact__phones__list">
+                {% for phone in contact.phones %}
+                <li class="contact__phones__list__item">
+                  {{ phone.phone }}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="related__realties">
+  <h2>Na mesma região</h2>
+  <ul class="related__realties__list">
+    {% for related in realty.related %}
+    <li class="related__realties__list__realty">
+      <div class="realty__container">
+        <a href="{{ app.url_generator.generate('realtyview', {'id': related.id}) }}">
+          <div class="realty__image">
+            {{ image_render(related.pictures[0].picture) }}
+          </div>
+          <h3 class="realty__type">{{ related.type }}</h3>
+        </a>
+        <div class="realty__city">{{ realty.city }}</div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{{ bottom() }}

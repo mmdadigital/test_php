@@ -1,0 +1,14 @@
+{{ head() }}
+{% for realty in realties %}
+<div class="side-image">
+  <div class="images-wrapper" style="background-image: url({{ image_url(realty.pictures[0].picture) }})"></div>
+    <div class="side-image-content">
+      <a href="{{ app.url_generator.generate('realtyview', {'id': realty.id}) }}">
+        <h4>{{ realty.city }}</h4>
+        <h1>{{ realty.type }}</h1>
+        <p>{{ realty.description }}</p>
+      </a>
+    </div>
+</div>
+{% endfor %}
+{{ bottom() }}
